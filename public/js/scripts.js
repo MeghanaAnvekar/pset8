@@ -66,6 +66,26 @@ $(function() {
 
     // configure UI once Google Map is idle (i.e., loaded)
     google.maps.event.addListenerOnce(map, "idle", configure);
+    
+    var p = [{"place_name": "Stanford",
+            "admin_name1": "California",
+            "postal_code": "94305" ,
+            latitude : 37.4236,
+            longitude : -122.1619
+    },{"place_name": "Redwood City",
+            "admin_name1": "California",
+            "postal_code": "94061" ,
+            latitude : 37.4647,
+            longitude : -122.2304},
+    ,{"place_name": "Palo Alto",
+            "admin_name1": "California",
+            "postal_code": "94303" ,
+            latitude : 37.4673,
+            longitude : -122.1388}
+        
+    ];
+    for(var i =0; i < p.length; ++i)
+        addMarker(p[i]);
 
 });
 
@@ -75,21 +95,27 @@ $(function() {
 function addMarker(place)
 {
     // TODO
+    var myLatlng = new google.maps.LatLng(place.latitude,place.longitude);
     
-    var myLatlng = new google.maps.LatLng(place["latitude"],place["longitude"]);
-    var mapOptions = {
-      zoom: 3,
-      center: myLatlng
-    }
-    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
     
-    var marker = new google.maps.Marker({
-        position: myLatlng,
-        title:"Hello World!"
-});
+    marker = new MarkerWithLabel({
+             position: myLatlng,
+             labelContent: place.place_name +", "+place.admin_name1+", "+place.postal_code ,
+             icon : image,
+             labelAnchor: new google.maps.Point(20, 0),
+             labelClass: "label"
+             
+    });
+    
+    marker.setMap(map);
+    
+     marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
 
-// To add the marker to the map, call setMap();
-marker.setMap(map);
+    markers.push(marker);
+
 }
 
 /**
@@ -123,7 +149,7 @@ function configure()
         source: search,
         templates: {
             empty: "no places found yet",
-            suggestion: _.template("<p><%- place_name %>, <%- admin_name1 %>,<%- postal_code %></p>")
+           suggestion: _.template("<p><%- place_name %>, <%- admin_name1 %>,<%- postal_code %></p>")
         }
     });
 
@@ -175,6 +201,7 @@ function hideInfo()
 function removeMarkers()
 {
     // TODO
+    marker.setMap(null);
 }
 
 /**
