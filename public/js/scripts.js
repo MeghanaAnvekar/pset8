@@ -85,7 +85,7 @@ function addMarker(place)
     
     var marker = new MarkerWithLabel({
              position: myLatlng,
-             labelContent: place.place_name +", "+place.admin_name1+", "+place.postal_code+"\n"+"lat:"+place.latitude+", lon:"+place.longitude ,
+             labelContent: "<p>"+place.place_name +", " + place.admin_name1+",<h6> "+ place.postal_code +"</h6></p>"+ "<p>lat :"+ place.latitude +"<p>long :"+place.longitude +"</p>" ,
              icon : image,
              labelAnchor: new google.maps.Point(20, 0),
              labelClass: "label"
