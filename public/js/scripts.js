@@ -103,7 +103,7 @@ function addMarker(place)
     
     marker = new MarkerWithLabel({
              position: myLatlng,
-             labelContent: place.place_name +", "+place.admin_name1+", "+place.postal_code ,
+             labelContent: place.place_name +", "+place.admin_name1+", "+place.postal_code+"\n"+"lat:"+place.latitude+", lon:"+place.longitude ,
              icon : image,
              labelAnchor: new google.maps.Point(20, 0),
              labelClass: "label"
@@ -111,7 +111,7 @@ function addMarker(place)
     });
     
     marker.setMap(map);
-    markers.push(marker);
+   
     
     marker.addListener('click', function() {
     
@@ -144,7 +144,7 @@ function addMarker(place)
 });
     
 
-   
+ markers.push(marker);   
 
 }
 
