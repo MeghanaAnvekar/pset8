@@ -67,6 +67,8 @@ $(function() {
     // configure UI once Google Map is idle (i.e., loaded)
     google.maps.event.addListenerOnce(map, "idle", configure);
     
+
+    
     var p = [{"place_name": "Stanford",
             "admin_name1": "California",
             "postal_code": "94305" ,
@@ -109,12 +111,40 @@ function addMarker(place)
     });
     
     marker.setMap(map);
-    
-     marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
-
     markers.push(marker);
+    
+    marker.addListener('click', function() {
+    
+    showInfo(marker);
+    $.getJSON("articles.php", { geo: place.postal_code }).done(function(data, textStatus, jqXHR) {
+        
+        if (data.length === 0)
+        {
+            showInfo(marker, "No News.");
+        }
+        else
+        {
+            var ul = "<ul>";    
+
+            var template = _.template("<li><a href = '<%- link %>' target = '_blank'><%- title %></a></li>");
+            
+            for (var i = 0, n = data.length; i < n; i++)
+            {
+                ul += template(
+                    {
+                    link: data[i].link,
+                    title: data[i].title
+                    }); 
+            }
+
+             ul += "</ul>";  
+            showInfo(marker, ul);
+        }
+    });
+});
+    
+
+   
 
 }
 
@@ -201,7 +231,12 @@ function hideInfo()
 function removeMarkers()
 {
     // TODO
-    marker.setMap(null);
+    for(var j = 0; j < markers.length;++j)
+        markers[j].setMap(null);
+    
+    markers.length = 0;
+    
+    
 }
 
 /**
