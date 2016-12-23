@@ -69,25 +69,7 @@ $(function() {
     
 
     
-    var p = [{"place_name": "Stanford",
-            "admin_name1": "California",
-            "postal_code": "94305" ,
-            latitude : 37.4236,
-            longitude : -122.1619
-    },{"place_name": "Redwood City",
-            "admin_name1": "California",
-            "postal_code": "94061" ,
-            latitude : 37.4647,
-            longitude : -122.2304},
-    ,{"place_name": "Palo Alto",
-            "admin_name1": "California",
-            "postal_code": "94303" ,
-            latitude : 37.4673,
-            longitude : -122.1388}
-        
-    ];
-    for(var i =0; i < p.length; ++i)
-        addMarker(p[i]);
+
 
 });
 
@@ -101,7 +83,7 @@ function addMarker(place)
     
     var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
     
-    marker = new MarkerWithLabel({
+    var marker = new MarkerWithLabel({
              position: myLatlng,
              labelContent: place.place_name +", "+place.admin_name1+", "+place.postal_code+"\n"+"lat:"+place.latitude+", lon:"+place.longitude ,
              icon : image,
